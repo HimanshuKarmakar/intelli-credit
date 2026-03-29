@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+
+# JDK (too large for GitHub, download separately)
+backend/jdk/
+
+# Java build output
+*.class
+target/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# IDE files
+.idea/
+*.iml
+.vscode/

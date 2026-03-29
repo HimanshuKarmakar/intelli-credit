@@ -1,0 +1,668 @@
+/* ============================================
+   INTELLI-CREDIT — Enhanced UX Effects
+   Skeletons, Toasts, Loading, Tooltips, Animations
+   ============================================ */
+
+/* --- Smooth card transitions --- */
+.card,
+.kpi-card,
+.risk-card,
+.split-panel,
+.decision-metric {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* --- Nav active indicator (animated) --- */
+.nav-item {
+    position: relative;
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--brand-primary);
+    border-radius: 0 3px 3px 0;
+    animation: navIndicatorSlide 0.3s ease;
+}
+
+@keyframes navIndicatorSlide {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+
+    to {
+        height: 20px;
+        opacity: 1;
+    }
+}
+
+/* --- Subtle table row transition --- */
+.data-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+/* --- Smooth badge hover --- */
+.badge {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+}
+
+/* --- Focus ring --- */
+*:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+}
+
+/* --- Smooth page view --- */
+.page-view.active {
+    animation: pageSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Wizard step completed check --- */
+.wizard-step.completed .wizard-step-number::after {
+    content: '✓';
+    font-size: 14px;
+}
+
+/* --- Score circle animation --- */
+.score-circle .score-number {
+    animation: scoreCount 0.6s ease-out;
+}
+
+@keyframes scoreCount {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.decision-badge {
+    animation: badgePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+}
+
+@keyframes badgePop {
+    from {
+        opacity: 0;
+        transform: scale(0.7) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- Reason card stagger --- */
+.reason-card {
+    animation: cardSlideUp 0.35s ease backwards;
+}
+
+.reason-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.reason-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.reason-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.reason-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.reason-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+@keyframes cardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   SKELETON LOADING SHIMMER
+   ============================================= */
+.skeleton {
+    background: linear-gradient(90deg, #eee 25%, #e0e0e0 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+    color: transparent !important;
+    pointer-events: none;
+    user-select: none;
+}
+
+.skeleton * {
+    visibility: hidden;
+}
+
+.skeleton-line {
+    height: 14px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #eee 25%, #e0e0e0 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+    width: 60%;
+}
+
+.skeleton-line.medium {
+    width: 80%;
+}
+
+.skeleton-line.long {
+    width: 95%;
+}
+
+.skeleton-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #eee 25%, #e0e0e0 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+   ============================================= */
+#toastContainer {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: var(--font-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    color: white;
+    pointer-events: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 360px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.toast.removing {
+    animation: toastSlideOut 0.3s ease forwards;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, rgba(0, 179, 134, 0.95), rgba(0, 208, 156, 0.95));
+}
+
+.toast.error {
+    background: linear-gradient(135deg, rgba(192, 57, 43, 0.95), rgba(235, 87, 87, 0.95));
+}
+
+.toast.info {
+    background: linear-gradient(135deg, rgba(61, 79, 217, 0.95), rgba(83, 103, 255, 0.95));
+}
+
+.toast.warning {
+    background: linear-gradient(135deg, rgba(210, 143, 0, 0.95), rgba(245, 166, 35, 0.95));
+}
+
+.toast-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.toast-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px;
+    transition: color 0.15s;
+}
+
+.toast-close:hover {
+    color: white;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+}
+
+/* =============================================
+   LOADING OVERLAY
+   ============================================= */
+#loadingOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#loadingOverlay.active {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-light);
+    border-top-color: var(--brand-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.loading-text {
+    font-size: var(--font-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loadingPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* =============================================
+   CSS TOOLTIPS
+   ============================================= */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1a1d26;
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1d26;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* =============================================
+   STAGGERED ENTRANCE ANIMATIONS
+   ============================================= */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: staggerFadeIn 0.4s ease forwards;
+}
+
+.stagger-item:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.stagger-item:nth-child(2) {
+    animation-delay: 0.06s;
+}
+
+.stagger-item:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.stagger-item:nth-child(4) {
+    animation-delay: 0.18s;
+}
+
+.stagger-item:nth-child(5) {
+    animation-delay: 0.24s;
+}
+
+.stagger-item:nth-child(6) {
+    animation-delay: 0.30s;
+}
+
+.stagger-item:nth-child(7) {
+    animation-delay: 0.36s;
+}
+
+.stagger-item:nth-child(8) {
+    animation-delay: 0.42s;
+}
+
+@keyframes staggerFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   BUTTON RIPPLE EFFECT
+   ============================================= */
+.btn-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(0);
+    animation: ripple 0.5s ease-out;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* =============================================
+   HAMBURGER BUTTON (Mobile)
+   ============================================= */
+.hamburger-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    transition: background 0.2s;
+    margin-right: var(--space-3);
+}
+
+.hamburger-btn:hover {
+    background: var(--bg-hover);
+}
+
+.hamburger-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* =============================================
+   NOTIFICATION BELL
+   ============================================= */
+.notification-bell {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--text-muted);
+}
+
+.notification-bell:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.notification-bell .bell-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--danger);
+    border: 2px solid var(--bg-white);
+    animation: bellPulse 2s ease infinite;
+}
+
+@keyframes bellPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+}
+
+/* =============================================
+   CONFETTI EFFECT (for Approve decision)
+   ============================================= */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 3s ease-in-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10px) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg) scale(0.3);
+        opacity: 0;
+    }
+}
+
+/* =============================================
+   EMPTY STATE (improved)
+   ============================================= */
+.empty-state-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-4);
+    background: var(--bg-body);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+/* =============================================
+   PROGRESS ANIMATION (Wizard)
+   ============================================= */
+.wizard-step-connector.animating {
+    background: linear-gradient(90deg, var(--brand-green) 50%, var(--border-light) 50%);
+    background-size: 200% 100%;
+    animation: progressFill 0.5s ease forwards;
+}
+
+@keyframes progressFill {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
+}
+
+/* --- Pulse animation for active wizard step --- */
+.wizard-step.active .wizard-step-number {
+    animation: stepPulse 2s ease infinite;
+}
+
+@keyframes stepPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(83, 103, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(83, 103, 255, 0);
+    }
+}
+
+/* =============================================
+   DECISION SHAKE (Reject)
+   ============================================= */
+.shake-animation {
+    animation: rejectShake 0.5s ease;
+}
+
+@keyframes rejectShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-4px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(4px);
+    }
+}

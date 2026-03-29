@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.IntelliCredit" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#6C5CE7</item>
+        <item name="android:navigationBarColor">#0a0a1a</item>
+        <item name="android:windowBackground">#0a0a1a</item>
+    </style>
+</resources>

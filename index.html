@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Intelli-Credit — AI-Powered Explainable Credit Decisioning Engine for Indian Mid-Sized Corporate Loans">
+    <title>Intelli-Credit — AI Credit Decisioning Engine</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232563eb'/><text x='6' y='24' font-size='22' fill='white' font-weight='bold'>IC</text></svg>">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">IC</div>
+                <div>
+                    <h1>Intelli-Credit</h1>
+                    <span>AI Credit Engine v1.0</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a class="nav-item" data-page="assessment" onclick="navigateTo('assessment')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <path d="M14 2v6h6" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    New Assessment
+                </a>
+                <div class="nav-section-label">Analysis</div>
+                <a class="nav-item" data-page="cases" onclick="navigateTo('dashboard')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+                    </svg>
+                    All Cases
+                </a>
+                <a class="nav-item" data-page="audit" onclick="navigateTo('audit')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                    Audit Trail
+                    <span class="nav-badge" id="auditBadge">3</span>
+                </a>
+                <div class="nav-section-label">Tools</div>
+                <a class="nav-item" onclick="toggleExplainabilityDrawer()">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Explainability
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <span class="version">Build 2026.02 — Hackathon Edition</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileSidebar()" aria-label="Toggle menu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <h2 class="header-title" id="pageTitle">Dashboard</h2>
+                    <span class="header-breadcrumb" id="breadcrumb">Home / Dashboard</span>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input type="text" id="globalSearch" placeholder="Search company, GSTIN, CIN..."
+                            onkeyup="handleSearch(this.value)">
+                    </div>
+                    <div class="notification-bell" data-tooltip="Notifications" onclick="showToast('No new notifications', 'info')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        <span class="bell-dot"></span>
+                    </div>
+                    <div class="header-avatar" data-tooltip="Credit Officer" title="Credit Officer">CO</div>
+                </div>
+            </header>
+
+            <!-- Page Views -->
+            <div class="page-container">
+
+                <!-- ========== DASHBOARD ========== -->
+                <div class="page-view active" id="page-dashboard">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Portfolio Overview</h1>
+                            <p class="section-subtitle">Credit assessment analytics and case management</p>
+                        </div>
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('assessment')">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            New Credit Assessment
+                        </button>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="kpi-grid" id="kpiGrid"></div>
+
+                    <!-- Cases Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="color:var(--white); font-weight:600;">Recent Credit Assessments</h3>
+                            <div style="display:flex;gap:8px;">
+                                <button class="btn btn-ghost btn-sm" onclick="filterCases('all')">All</button>
+                                <button class="btn btn-ghost btn-sm" onclick="filterCases('Approve')">Approved</button>
+                                <button class="btn btn-ghost btn-sm" onclick="filterCases('Reject')">Rejected</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="casesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Risk Score</th>
+                                        <th>Decision</th>
+                                        <th>Requested</th>
+                                        <th>Recommended</th>
+                                        <th>Fraud Alerts</th>
+                                        <th>Last Updated</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="casesBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== ASSESSMENT WIZARD ========== -->
+                <div class="page-view" id="page-assessment">
+                    <div class="wizard-container">
+                        <div class="wizard-steps" id="wizardSteps"></div>
+                        <div class="wizard-body" id="wizardBody"></div>
+                    </div>
+                </div>
+
+                <!-- ========== AUDIT TRAIL ========== -->
+                <div class="page-view" id="page-audit">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Audit Trail</h1>
+                            <p class="section-subtitle">Complete traceability of all agent actions and scoring changes
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="audit-timeline" id="auditTimeline"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Processing...</div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- Explainability Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleExplainabilityDrawer()"></div>
+    <div class="explainability-drawer" id="explainabilityDrawer">
+        <div class="drawer-header">
+            <h2>🔍 Explainability Panel</h2>
+            <button class="btn btn-ghost btn-icon" onclick="toggleExplainabilityDrawer()">✕</button>
+        </div>
+        <div class="drawer-body" id="drawerBody">
+            <p style="color:var(--text-muted);">Run a credit assessment to see the scoring breakdown here.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/demoData.js"></script>
+    <script src="js/scoringEngine.js"></script>
+    <script src="js/reconciliation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/app2.js"></script>
+    <script src="js/effects.js"></script>
+</body>
+
+</html>
