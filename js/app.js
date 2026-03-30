@@ -478,3 +478,43 @@ function runAnalysis() {
 }
 
 // Continue in app.js Part 2 below...
+
+// ---- Authentication Logic ----
+function toggleAuthView(e, view) {
+  if (e) e.preventDefault();
+  document.getElementById('signInView').style.display = view === 'login' ? 'block' : 'none';
+  document.getElementById('registerView').style.display = view === 'register' ? 'block' : 'none';
+}
+
+function handleAuth(e, action) {
+  e.preventDefault();
+  
+  // Show loading state
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="loading-spinner" style="width: 16px; height: 16px; border-width: 2px;"></div>';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    // Hide Auth wrapper, show App container
+    document.getElementById('authWrapper').style.display = 'none';
+    document.getElementById('appContainer').style.display = 'flex';
+    
+    // Update officer name if registering
+    if (action === 'register') {
+      const name = document.getElementById('registerName').value;
+      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.querySelector('.header-avatar').textContent = initials;
+      document.querySelector('.header-avatar').title = name;
+      document.querySelector('.header-avatar').dataset.tooltip = document.getElementById('registerRole').value;
+    }
+
+    if (typeof showToast === 'function') {
+      showToast('Authentication successful', 'success');
+    }
+    
+    // Reset button state
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }, 1200);
+}
